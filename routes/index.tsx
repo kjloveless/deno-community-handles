@@ -11,10 +11,66 @@ import { Input } from "../components/ui/input.tsx";
 import { Button } from "../components/ui/Button.tsx";
 import { RouteContext } from "$fresh/src/server/mod.ts";
 
+const RESERVED = [
+  "Jungkook",
+  "JeonJungkook",
+  "Jeon",
+  "JK",
+  "JJK",
+  "Kim",
+  "KimTaehyung",
+  "V",
+  "Taehyung",
+  "Tae",
+  "Jin",
+  "Seokjin",
+  "KimSeokjin",
+  "RM",
+  "Namjoon",
+  "Nam",
+  "KimNamjoon",
+  "MinYoongi",
+  "Yoongi",
+  "Yoon",
+  "AgustD",
+  "MYG",
+  "Suga",
+  "PJM",
+  "Jimin",
+  "ParkJimin",
+  "Park",
+  "Abcdefghi__lmnopqrsvuxyz",
+  "JM",
+  "UarMyHope",
+  "Rkrive",
+  "THV",
+  "KTH",
+  "SBT",
+  "BANGPD",
+  "projeto",
+  "army",
+  "armys ",
+  "info",
+  "projects",
+  "Pic",
+  "New",
+  "Babys",
+].map((x) => x.toLowerCase());
+
+const kv = await Deno.openKv();
+
+interface mapValue {
+  handle: string;
+  did: string;
+  domain: {
+    name: string;
+  };
+}
+
 export default async function HomePage(_req: Request, ctx: RouteContext) {
   const domain = ctx.url.hostname;
   let handle = ctx.url.searchParams.get("handle") || "";
-  let newHandle = ctx.url.searchParams.get("newHandle") || "";
+  let newHandle = ctx.url.searchParams.get("new-handle") || "";
   let profile: AppBskyActorDefs.ProfileView | undefined;
   let error1: string | undefined;
   let error2: string | undefined;
@@ -56,28 +112,22 @@ export default async function HomePage(_req: Request, ctx: RouteContext) {
               throw new Error("reserved");
             }
 
-            // const existing = await prisma.user.findFirst({
-            //   where: { handle },
-            //   include: { domain: true },
-            // });
-            // if (existing && existing.domain.name === domain) {
-            //   if (existing.did !== profile.did) {
-            //     error2 = "handle taken";
-            //   }
-            // } else {
-            //   await prisma.user.create({
-            //     data: {
-            //       handle,
-            //       did: profile.did,
-            //       domain: {
-            //         connectOrCreate: {
-            //           where: { name: domain },
-            //           create: { name: domain },
-            //         },
-            //       },
-            //     },
-            //   });
-            // }
+            const existing = (await kv.get(["handle", handle]))
+              .value as mapValue;
+            if (existing && existing.domain.name === domain) {
+              if (existing.did !== profile.did) {
+                error2 = "handle taken";
+              }
+            } else {
+              const updatedHandle: mapValue = {
+                handle: handle,
+                did: profile.did,
+                domain: {
+                  name: domain,
+                },
+              };
+              await kv.set(["handle", handle], updatedHandle);
+            }
           } catch (e) {
             console.error(e);
             error2 = (e as Error)?.message ?? "unknown error";
@@ -201,49 +251,3 @@ export default async function HomePage(_req: Request, ctx: RouteContext) {
     </main>
   );
 }
-
-const RESERVED = [
-  "Jungkook",
-  "JeonJungkook",
-  "Jeon",
-  "JK",
-  "JJK",
-  "Kim",
-  "KimTaehyung",
-  "V",
-  "Taehyung",
-  "Tae",
-  "Jin",
-  "Seokjin",
-  "KimSeokjin",
-  "RM",
-  "Namjoon",
-  "Nam",
-  "KimNamjoon",
-  "MinYoongi",
-  "Yoongi",
-  "Yoon",
-  "AgustD",
-  "MYG",
-  "Suga",
-  "PJM",
-  "Jimin",
-  "ParkJimin",
-  "Park",
-  "Abcdefghi__lmnopqrsvuxyz",
-  "JM",
-  "UarMyHope",
-  "Rkrive",
-  "THV",
-  "KTH",
-  "SBT",
-  "BANGPD",
-  "projeto",
-  "army",
-  "armys ",
-  "info",
-  "projects",
-  "Pic",
-  "New",
-  "Babys",
-].map((x) => x.toLowerCase());
