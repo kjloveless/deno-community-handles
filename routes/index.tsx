@@ -1,5 +1,5 @@
 import { AppBskyActorDefs } from "@atproto/api";
-import { Check, X } from "lucide-react"; // need to fix these
+// import { Check, X } from "lucide-react"; need to fix these
 
 import { hasExplicitSlur } from "../util/slurs.ts";
 import { agent } from "../util/atproto.ts";
@@ -118,7 +118,7 @@ export default async function HomePage(_req: Request, ctx: RouteContext) {
                   defaultValue={handle}
                   required
                 />
-                <button type="submit">Submit</button>
+                <Button type="submit">Submit</Button>
               </div>
               <p className="text-sm text-muted-foreground">
                 Enter your current handle, not including the @
