@@ -1,4 +1,5 @@
 import { type PageProps } from "$fresh/server.ts";
+
 export default function App({ Component }: PageProps) {
   return (
     <html>
@@ -8,8 +9,10 @@ export default function App({ Component }: PageProps) {
         <title>deno-community-handles</title>
         <link rel="stylesheet" href="/styles.css" />
       </head>
-      <body>
-        <Component />
+      <body className="min-h-screen font-sans antialiased">
+        <div className="relative flex min-h-screen flex-col">
+          <Component />
+        </div>
       </body>
     </html>
   );
