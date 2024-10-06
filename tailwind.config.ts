@@ -1,6 +1,7 @@
 import { type Config } from "tailwindcss";
 
 // import { fontFamily } from "tailwindcss/defaultTheme";
+// TODO: fix fontfamily and animation stuff towards bottom
 
 export default {
   darkMode: ["class"],
