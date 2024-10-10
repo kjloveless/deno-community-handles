@@ -1,71 +1,21 @@
-import { AppBskyActorDefs } from "@atproto/api";
-// import { Check, X } from "lucide-react"; need to fix these
-
-import { hasExplicitSlur } from "../util/slurs.ts";
-import { agent } from "../util/atproto.ts";
-
-import { Stage } from "../components/stage.tsx";
-import { Profile } from "../components/profile.tsx";
-
-import { Input } from "../components/ui/input.tsx";
-import { Button } from "../components/ui/Button.tsx";
+import { Head } from "$fresh/runtime.ts";
 import { RouteContext } from "$fresh/src/server/mod.ts";
 
-const RESERVED = [
-  "Jungkook",
-  "JeonJungkook",
-  "Jeon",
-  "JK",
-  "JJK",
-  "Kim",
-  "KimTaehyung",
-  "V",
-  "Taehyung",
-  "Tae",
-  "Jin",
-  "Seokjin",
-  "KimSeokjin",
-  "RM",
-  "Namjoon",
-  "Nam",
-  "KimNamjoon",
-  "MinYoongi",
-  "Yoongi",
-  "Yoon",
-  "AgustD",
-  "MYG",
-  "Suga",
-  "PJM",
-  "Jimin",
-  "ParkJimin",
-  "Park",
-  "Abcdefghi__lmnopqrsvuxyz",
-  "JM",
-  "UarMyHope",
-  "Rkrive",
-  "THV",
-  "KTH",
-  "SBT",
-  "BANGPD",
-  "projeto",
-  "army",
-  "armys ",
-  "info",
-  "projects",
-  "Pic",
-  "New",
-  "Babys",
-].map((x) => x.toLowerCase());
+import { AppBskyActorDefs } from "@atproto/api";
+
+import { Profile } from "../components/profile.tsx";
+import { Stage } from "../components/stage.tsx";
+
+import { Button } from "../components/ui/Button.tsx";
+import { Input } from "../components/ui/input.tsx";
+
+import { handleOwner } from "../types/model.ts";
+
+import { agent } from "../util/atproto.ts";
+import { RESERVED } from "../util/mod.ts";
+import { hasExplicitSlur } from "../util/slurs.ts";
 
 const kv = await Deno.openKv();
-
-interface mapValue {
-  handle: string;
-  did: string;
-  domain: {
-    name: string;
-  };
-}
 
 export default async function HomePage(_req: Request, ctx: RouteContext) {
   const domain = ctx.url.hostname;
@@ -113,13 +63,13 @@ export default async function HomePage(_req: Request, ctx: RouteContext) {
             }
 
             const existing = (await kv.get(["handle", handle]))
-              .value as mapValue;
+              .value as handleOwner;
             if (existing && existing.domain.name === domain) {
               if (existing.did !== profile.did) {
                 error2 = "handle taken";
               }
             } else {
-              const updatedHandle: mapValue = {
+              const updatedHandle: handleOwner = {
                 handle: handle,
                 did: profile.did,
                 domain: {
@@ -139,115 +89,125 @@ export default async function HomePage(_req: Request, ctx: RouteContext) {
     }
   }
   return (
-    <main className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-4">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl">
-          Get your own {domain} <br className="hidden sm:inline" />
-          handle for Bluesky!
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground sm:text-xl">
-          Follow the instructions below to get your own {domain} handle.
-        </p>
-      </div>
-      <div>
-        <Stage title="Enter your current handle" number={1}>
-          <form>
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <div className="flex w-full max-w-sm items-center space-x-2">
-                {newHandle && (
-                  <input
-                    type="hidden"
-                    name="new-handle"
-                    value=""
+    <>
+      <Head>
+        <title>{`${domain} - get your community handle for Bluesky`}</title>
+        <meta name="description" content={`get your own ${domain} handle`} />
+      </Head>
+
+      <main className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+        <div className="flex max-w-[980px] flex-col items-start gap-4">
+          <h1 className="text-3xl font-extrabold leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl">
+            Get your own {domain} <br className="hidden sm:inline" />
+            handle for Bluesky!
+          </h1>
+          <p className="max-w-[700px] text-lg text-muted-foreground sm:text-xl">
+            Follow the instructions below to get your own {domain} handle.
+          </p>
+        </div>
+        <div>
+          <Stage title="Enter your current handle" number={1}>
+            <form>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <div className="flex w-full max-w-sm items-center space-x-2">
+                  {newHandle && (
+                    <input
+                      type="hidden"
+                      name="new-handle"
+                      value=""
+                    />
+                  )}
+                  <Input
+                    type="text"
+                    name="handle"
+                    placeholder="example.bsky.social"
+                    defaultValue={handle}
+                    required
                   />
-                )}
-                <Input
-                  type="text"
-                  name="handle"
-                  placeholder="example.bsky.social"
-                  defaultValue={handle}
-                  required
-                />
-                <Button type="submit">Submit</Button>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Enter your current handle, not including the @
-              </p>
-              {error1 && (
-                <p className="flex flex-row items-center gap-2 text-sm text-red-500">
-                  Handle not found - please try again
+                  <Button type="submit">Submit</Button>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Enter your current handle, not including the @
                 </p>
-              )}
-              {profile && (
-                <>
-                  <p className="text-muted-forground mt-4 flex flex-row items-center gap-2 text-sm">
-                    Account found
+                {error1 && (
+                  <p className="flex flex-row items-center gap-2 text-sm text-red-500">
+                    Handle not found - please try again
                   </p>
-                  <Profile profile={profile} />
-                </>
-              )}
-            </div>
-          </form>
-        </Stage>
-        <Stage title="Choose your new handle" number={2} disabled={!profile}>
-          <form>
-            <input type="hidden" name="handle" value={handle} />
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <div className="flex w-full max-w-sm items-center space-x-2">
-                <Input
-                  type="text"
-                  name="new-handle"
-                  placeholder={`example.${domain}`}
-                  defaultValue={newHandle}
-                />
-                <Button type="submit">Submit</Button>
+                )}
+                {profile && (
+                  <>
+                    <p className="text-muted-forground mt-4 flex flex-row items-center gap-2 text-sm">
+                      Account found
+                    </p>
+                    <Profile profile={profile} />
+                  </>
+                )}
               </div>
-              <p className="text-sm text-muted-foreground">
-                Enter the {domain}{" "}
-                handle that you would like to have, not including the @
-              </p>
-              {error2 && (
-                <p className="text-sm text-red-500">
-                  {(() => {
-                    switch (error2) {
-                      case "handle taken":
-                        return "Handle already taken - please enter a different handle";
-                      case "invalid handle":
-                      case "slur":
-                        return "Invalid handle - please enter a different handle";
-                      case "reserved":
-                        return "Reserved handle - please enter a different handle";
-                      default:
-                        return "An error occured - please try again";
-                    }
-                  })()}
+            </form>
+          </Stage>
+          <Stage title="Choose your new handle" number={2} disabled={!profile}>
+            <form>
+              <input type="hidden" name="handle" value={handle} />
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <div className="flex w-full max-w-sm items-center space-x-2">
+                  <Input
+                    type="text"
+                    name="new-handle"
+                    placeholder={`example.${domain}`}
+                    defaultValue={newHandle}
+                  />
+                  <Button type="submit">Submit</Button>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Enter the {domain}{" "}
+                  handle that you would like to have, not including the @
                 </p>
-              )}
-            </div>
-          </form>
-        </Stage>
-        <Stage
-          title="Change your handle within the Bluesky app"
-          number={3}
-          disabled={!newHandle || !!error2}
-          last
-        >
-          <p className="max-w-lg text-sm">
-            Go to Settings {">"} Advanced {">"}{" "}
-            Change my handle. Select &quot;I have my own domain&quot; and enter
-            {" "}
-            {newHandle ? `"${newHandle}"` : "your new handle"}. Finally, tap
-            &quot;Verify DNS Record&quot;.
-          </p>
-          <p className="mt-6 max-w-lg text-sm">
-            If you like this project, consider{" "}
-            <a href="https://github.com/sponsors/mozzius" className="underline">
-              sponsoring the original creator, mozzius
-            </a>
-            .
-          </p>
-        </Stage>
-      </div>
-    </main>
+                {error2 && (
+                  <p className="text-sm text-red-500">
+                    {(() => {
+                      switch (error2) {
+                        case "handle taken":
+                          return "Handle already taken - please enter a different handle";
+                        case "invalid handle":
+                        case "slur":
+                          return "Invalid handle - please enter a different handle";
+                        case "reserved":
+                          return "Reserved handle - please enter a different handle";
+                        default:
+                          return "An error occured - please try again";
+                      }
+                    })()}
+                  </p>
+                )}
+              </div>
+            </form>
+          </Stage>
+          <Stage
+            title="Change your handle within the Bluesky app"
+            number={3}
+            disabled={!newHandle || !!error2}
+            last
+          >
+            <p className="max-w-lg text-sm">
+              Go to Settings {">"} Advanced {">"}{" "}
+              Change my handle. Select &quot;I have my own domain&quot; and
+              enter{" "}
+              {newHandle ? `"${newHandle}"` : "your new handle"}. Finally, tap
+              &quot;Verify DNS Record&quot;.
+            </p>
+            <p className="mt-6 max-w-lg text-sm">
+              If you like this project, consider{" "}
+              <a
+                href="https://github.com/sponsors/mozzius"
+                className="underline"
+              >
+                sponsoring the original creator, mozzius
+              </a>
+              .
+            </p>
+          </Stage>
+        </div>
+      </main>
+    </>
   );
 }

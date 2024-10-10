@@ -1,24 +1,19 @@
 import { RouteContext } from "$fresh/src/server/mod.ts";
+
 import { Profile } from "../../components/profile.tsx";
+
+import { handleOwner } from "../../types/model.ts";
 
 import { agent } from "../../util/atproto.ts";
 
 const kv = await Deno.openKv();
-
-interface mapValue {
-  handle: string;
-  did: string;
-  domain: {
-    name: string;
-  };
-}
 
 export default async function HandlePage(_req: Request, ctx: RouteContext) {
   // const domain = ctx.url.hostname;
   const { handle } = ctx.params;
 
   try {
-    const user = (await kv.get(["handle", handle])).value as mapValue;
+    const user = (await kv.get(["handle", handle])).value as handleOwner;
     const profile = await agent.getProfile({
       actor: user.did,
     });
