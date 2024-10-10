@@ -11,51 +11,7 @@ import { Input } from "../components/ui/input.tsx";
 import { Button } from "../components/ui/Button.tsx";
 import { RouteContext } from "$fresh/src/server/mod.ts";
 
-const RESERVED = [
-  "Jungkook",
-  "JeonJungkook",
-  "Jeon",
-  "JK",
-  "JJK",
-  "Kim",
-  "KimTaehyung",
-  "V",
-  "Taehyung",
-  "Tae",
-  "Jin",
-  "Seokjin",
-  "KimSeokjin",
-  "RM",
-  "Namjoon",
-  "Nam",
-  "KimNamjoon",
-  "MinYoongi",
-  "Yoongi",
-  "Yoon",
-  "AgustD",
-  "MYG",
-  "Suga",
-  "PJM",
-  "Jimin",
-  "ParkJimin",
-  "Park",
-  "Abcdefghi__lmnopqrsvuxyz",
-  "JM",
-  "UarMyHope",
-  "Rkrive",
-  "THV",
-  "KTH",
-  "SBT",
-  "BANGPD",
-  "projeto",
-  "army",
-  "armys ",
-  "info",
-  "projects",
-  "Pic",
-  "New",
-  "Babys",
-].map((x) => x.toLowerCase());
+import { RESERVED } from "../util/mod.ts";
 
 const kv = await Deno.openKv();
 
