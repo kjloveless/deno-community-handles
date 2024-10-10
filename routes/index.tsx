@@ -8,20 +8,12 @@ import { Stage } from "../components/stage.tsx";
 import { Button } from "../components/ui/Button.tsx";
 import { Input } from "../components/ui/input.tsx";
 
-import { RESERVED } from "../util/mod.ts";
+import { handleOwner, RESERVED } from "../util/mod.ts";
 
 import { agent } from "../util/atproto.ts";
 import { hasExplicitSlur } from "../util/slurs.ts";
 
 const kv = await Deno.openKv();
-
-interface mapValue {
-  handle: string;
-  did: string;
-  domain: {
-    name: string;
-  };
-}
 
 export default async function HomePage(_req: Request, ctx: RouteContext) {
   const domain = ctx.url.hostname;
@@ -69,13 +61,13 @@ export default async function HomePage(_req: Request, ctx: RouteContext) {
             }
 
             const existing = (await kv.get(["handle", handle]))
-              .value as mapValue;
+              .value as handleOwner;
             if (existing && existing.domain.name === domain) {
               if (existing.did !== profile.did) {
                 error2 = "handle taken";
               }
             } else {
-              const updatedHandle: mapValue = {
+              const updatedHandle: handleOwner = {
                 handle: handle,
                 did: profile.did,
                 domain: {

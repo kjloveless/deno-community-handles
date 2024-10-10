@@ -1,23 +1,17 @@
 import { Handlers } from "$fresh/server.ts";
 
-const kv = await Deno.openKv();
+import { handleOwner } from "../../../util/mod.ts";
 
-interface mapValue {
-  handle: string;
-  did: string;
-  domain: {
-    name: string;
-  };
-}
+const kv = await Deno.openKv();
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
     const handle = ctx.params.handle;
-    const { did } = (await kv.get(["handle", handle])).value as mapValue;
+    const { did } = (await kv.get(["handle", handle])).value as handleOwner;
     return new Response(did, {
       headers: {
         "content-type": "text/plain",
-      }
+      },
     });
   },
 };
