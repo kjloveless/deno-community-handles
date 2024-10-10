@@ -1,6 +1,10 @@
 import { type PageProps } from "$fresh/server.ts";
 
-export default function App({ Component }: PageProps) {
+import { siteConfig } from "../config/site.ts";
+
+import { MainNav } from "../islands/main-nav.tsx";
+
+export default function App({ Component, url }: PageProps) {
   return (
     <html>
       <head>
@@ -11,6 +15,7 @@ export default function App({ Component }: PageProps) {
       </head>
       <body className="min-h-screen font-sans antialiased">
         <div className="relative flex min-h-screen flex-col">
+          <MainNav title={url.hostname} items={siteConfig.mainNav} />
           <Component />
         </div>
       </body>
