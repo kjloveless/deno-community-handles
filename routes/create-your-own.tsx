@@ -42,16 +42,7 @@ export default function CommunityPage() {
               . It{"'"}s a Fresh project.
             </p>
             <p className="mt-8 max-w-lg text-sm text-muted-foreground">
-              {
-                /* Using the hosted version? (no longer available){" "}
-            <a
-              href="https://billing.stripe.com/p/login/6oEbJccQOh2Rdji4gg"
-              className="underline"
-            >
-              Go to the billing portal
-            </a>
-            . */
-              }
+              Self hosted instructions coming(? see github issues).
             </p>
           </Stage>
         </div>
