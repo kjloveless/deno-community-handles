@@ -1,17 +1,17 @@
-import { AppBskyActorDefs } from "@atproto/api";
-// import { Check, X } from "lucide-react"; need to fix these
-
-import { hasExplicitSlur } from "../util/slurs.ts";
-import { agent } from "../util/atproto.ts";
-
-import { Stage } from "../components/stage.tsx";
-import { Profile } from "../components/profile.tsx";
-
-import { Input } from "../components/ui/input.tsx";
-import { Button } from "../components/ui/Button.tsx";
 import { RouteContext } from "$fresh/src/server/mod.ts";
 
+import { AppBskyActorDefs } from "@atproto/api";
+
+import { Profile } from "../components/profile.tsx";
+import { Stage } from "../components/stage.tsx";
+
+import { Button } from "../components/ui/Button.tsx";
+import { Input } from "../components/ui/input.tsx";
+
 import { RESERVED } from "../util/mod.ts";
+
+import { agent } from "../util/atproto.ts";
+import { hasExplicitSlur } from "../util/slurs.ts";
 
 const kv = await Deno.openKv();
 

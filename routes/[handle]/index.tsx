@@ -1,4 +1,5 @@
 import { RouteContext } from "$fresh/src/server/mod.ts";
+
 import { Profile } from "../../components/profile.tsx";
 
 import { agent } from "../../util/atproto.ts";
