@@ -2,8 +2,9 @@ import { RouteContext } from "$fresh/src/server/mod.ts";
 
 import { Profile } from "../../components/profile.tsx";
 
+import { handleOwner } from "../../types/model.ts";
+
 import { agent } from "../../util/atproto.ts";
-import { handleOwner } from "../../util/mod.ts";
 
 const kv = await Deno.openKv();
 

@@ -1,6 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
 
-import { handleOwner } from "../../../util/mod.ts";
+import { handleOwner } from "../../../types/model.ts";
 
 const kv = await Deno.openKv();
 

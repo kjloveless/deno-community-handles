@@ -8,9 +8,10 @@ import { Stage } from "../components/stage.tsx";
 import { Button } from "../components/ui/Button.tsx";
 import { Input } from "../components/ui/input.tsx";
 
-import { handleOwner, RESERVED } from "../util/mod.ts";
+import { handleOwner } from "../types/model.ts";
 
 import { agent } from "../util/atproto.ts";
+import { RESERVED } from "../util/mod.ts";
 import { hasExplicitSlur } from "../util/slurs.ts";
 
 const kv = await Deno.openKv();

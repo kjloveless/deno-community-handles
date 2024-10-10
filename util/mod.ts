@@ -5,14 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export interface handleOwner {
-  handle: string;
-  did: string;
-  domain: {
-    name: string;
-  };
-}
-
 export const RESERVED = [
   "Jungkook",
   "JeonJungkook",
