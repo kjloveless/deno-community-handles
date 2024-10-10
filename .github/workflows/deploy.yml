@@ -29,6 +29,6 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "kyleloveles-deno-commun-88"
+          project: "deno-community-handles"
           entrypoint: "main.ts"
           root: "."
