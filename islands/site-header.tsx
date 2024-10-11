@@ -60,10 +60,7 @@ export default function SiteHeader({ children }: Props) {
       </header>
       {showMenu && (
         <div
-          className={cn(
-            "fixed top-16 z-30 w-full overflow-hidden border-b bg-background/80 transition-transform duration-500 md:hidden",
-            // showMenu ? "translate-y-1px" : "-translate-y-full",
-          )}
+          className="fixed top-16 z-30 w-full overflow-hidden border-b bg-background/80 transition-transform duration-500 md:hidden"
           aria-hidden={!showMenu}
         >
           <div className="container flex h-full flex-col items-center justify-stretch px-4 pb-2">
