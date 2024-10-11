@@ -58,36 +58,38 @@ export default function SiteHeader({ children }: Props) {
           </div>
         </div>
       </header>
-      <div
-        className={cn(
-          "fixed top-16 z-30 w-full overflow-hidden border-b bg-background/80 transition-transform duration-500 md:hidden",
-          showMenu ? "translate-y-1px" : "-translate-y-full",
-        )}
-        aria-hidden={!showMenu}
-      >
-        <div className="container flex h-full flex-col items-center justify-stretch px-4 pb-2">
-          <nav className="mb-2 flex w-full flex-col items-stretch gap-1 border-b py-2">
-            {siteConfig.mainNav.map(
-              (item, index) =>
-                item.href && (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className={buttonVariants({
-                      variant: "ghost",
-                      className:
-                        "w-full !justify-start text-left font-semibold text-muted-foreground",
-                    })}
-                    onClick={() => setShowMenu(false)}
-                  >
-                    {item.title}
-                  </Link>
-                ),
-            )}
-          </nav>
-          {links}
+      {showMenu && (
+        <div
+          className={cn(
+            "fixed top-16 z-30 w-full overflow-hidden border-b bg-background/80 transition-transform duration-500 md:hidden",
+            // showMenu ? "translate-y-1px" : "-translate-y-full",
+          )}
+          aria-hidden={!showMenu}
+        >
+          <div className="container flex h-full flex-col items-center justify-stretch px-4 pb-2">
+            <nav className="mb-2 flex w-full flex-col items-stretch gap-1 border-b py-2">
+              {siteConfig.mainNav.map(
+                (item, index) =>
+                  item.href && (
+                    <Link
+                      key={index}
+                      href={item.href}
+                      className={buttonVariants({
+                        variant: "ghost",
+                        className:
+                          "w-full !justify-start text-left font-semibold text-muted-foreground",
+                      })}
+                      onClick={() => setShowMenu(false)}
+                    >
+                      {item.title}
+                    </Link>
+                  ),
+              )}
+            </nav>
+            {links}
+          </div>
         </div>
-      </div>
+      )}
       {/* Backdrop */}
       <div
         aria-hidden
