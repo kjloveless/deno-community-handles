@@ -2,7 +2,8 @@ import { type PageProps } from "$fresh/server.ts";
 
 import { siteConfig } from "../config/site.ts";
 
-import { MainNav } from "../islands/main-nav.tsx";
+import MainNav from "../components/main-nav.tsx";
+import SiteHeader from "../islands/site-header.tsx";
 
 export default function App({ Component, url }: PageProps) {
   return (
@@ -15,7 +16,12 @@ export default function App({ Component, url }: PageProps) {
       </head>
       <body className="min-h-screen font-sans antialiased">
         <div className="relative flex min-h-screen flex-col">
-          <MainNav title={url.hostname} items={siteConfig.mainNav} />
+          <SiteHeader items={siteConfig.mainNav}>
+            <MainNav
+              title={url.hostname}
+              items={siteConfig.mainNav}
+            />
+          </SiteHeader>
           <Component />
         </div>
       </body>

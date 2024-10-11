@@ -10,7 +10,7 @@ import * as $community_index from "./routes/community/index.tsx";
 import * as $create_your_own from "./routes/create-your-own.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $link from "./islands/link.tsx";
-import * as $main_nav from "./islands/main-nav.tsx";
+import * as $site_header from "./islands/site-header.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -26,7 +26,7 @@ const manifest = {
   },
   islands: {
     "./islands/link.tsx": $link,
-    "./islands/main-nav.tsx": $main_nav,
+    "./islands/site-header.tsx": $site_header,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

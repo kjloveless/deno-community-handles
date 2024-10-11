@@ -1,7 +1,7 @@
 import { JSX } from "preact";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 
-import { getDomain } from "../util/mod.ts";
+// import { getDomain } from "../util/mod.ts";  fix this shit breaking the nacbar when it fails
 
 export function Link(
   { href, ...props }: JSX.HTMLAttributes<HTMLAnchorElement>,
@@ -9,13 +9,13 @@ export function Link(
   if (
     IS_BROWSER && typeof href === "string" && typeof window !== "undefined"
   ) {
-    const { subdomain, domain } = getDomain(window.location.hostname);
-    console.log(subdomain, domain);
-    if (subdomain) {
-      return <a href={`https://${domain}${href}`} {...props} />;
-    } else {
-      return <a href={href} {...props} />;
-    }
+    // const { subdomain, domain } = getDomain(window.location.hostname);
+    // console.log(subdomain, domain);
+    // if (subdomain) {
+    //   return <a href={`https://${domain}${href}`} {...props} />;
+    // } else {
+    return <a href={href} {...props} />;
+    // }
   } else {
     return <a href={href} {...props} />;
   }
