@@ -9,7 +9,6 @@ import { agent } from "../../util/atproto.ts";
 const kv = await Deno.openKv();
 
 export default async function HandlePage(_req: Request, ctx: RouteContext) {
-  // const domain = ctx.url.hostname;
   const { handle } = ctx.params;
 
   try {
