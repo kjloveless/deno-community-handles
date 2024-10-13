@@ -9,7 +9,7 @@ import { cn } from "../util/mod.ts";
 import { buttonVariants } from "../components/ui/Button.tsx";
 import { Icons } from "../components/icons.tsx";
 import { Link } from "../islands/link.tsx";
-// import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeToggle } from "./theme-toggle.tsx";
 
 interface Props {
   children?: ComponentChildren;
@@ -34,7 +34,7 @@ export default function SiteHeader({ children }: Props) {
           <span className="sr-only">GitHub</span>
         </div>
       </Link>
-      {/* <ThemeToggle /> */}
+      <ThemeToggle />
     </nav>
   );
 
@@ -60,7 +60,7 @@ export default function SiteHeader({ children }: Props) {
       </header>
       {showMenu && (
         <div
-          className="fixed top-16 z-30 w-full overflow-hidden border-b bg-background/80 transition-transform duration-500 md:hidden"
+          className="fixed top-16 z-30 w-full overflow-hidden border-b bg-background/80 transition-transform duration-500 md:hidden translate-y-1px"
           aria-hidden={!showMenu}
         >
           <div className="container flex h-full flex-col items-center justify-stretch px-4 pb-2">

@@ -7,7 +7,7 @@ import SiteHeader from "../islands/site-header.tsx";
 
 export default function App({ Component, url }: PageProps) {
   return (
-    <html>
+    <html class="dark">
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
