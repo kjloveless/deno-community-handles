@@ -5,9 +5,11 @@ import { siteConfig } from "../config/site.ts";
 import MainNav from "../components/main-nav.tsx";
 import SiteHeader from "../islands/site-header.tsx";
 
+import { theme } from "../islands/theme-toggle.tsx";
+
 export default function App({ Component, url }: PageProps) {
   return (
-    <html class="dark">
+    <html className={theme.value}>
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

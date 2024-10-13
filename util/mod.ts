@@ -6,16 +6,12 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getDomain(hostname: string) {
-  try {
-    const domainParts = hostname.split(".");
+  const domainParts = hostname.split(".");
 
-    const domain = `${domainParts[domainParts.length - 1]}
-    ${domainParts[domainParts.length]}`;
-    const subdomain = hostname.split(domain)[0];
-    return { domain, subdomain };
-  } catch (e) {
-    throw new Error(e.message);
-  }
+  const domain = `${domainParts[domainParts.length - 1]}
+  ${domainParts[domainParts.length]}`;
+  const subdomain = hostname.split(domain)[0];
+  return { domain, subdomain };
 }
 
 export const RESERVED = [

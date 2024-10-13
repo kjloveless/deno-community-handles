@@ -1,17 +1,23 @@
-import { useSignal } from "@preact/signals";
+import { signal } from "@preact/signals";
 
 import { Button } from "../components/ui/Button.tsx";
 import { Icons } from "../components/icons.tsx";
 
-export function ThemeToggle() {
-  const theme = useSignal("light");
+export const theme = signal("dark");
 
+export function ThemeToggle() {
   return (
     <Button
       variant="ghost"
       size="sm"
       onClick={() => {
         theme.value = theme.value === "light" ? "dark" : "light";
+        if (theme.value === "light") {
+          document.documentElement.classList.remove("dark");
+        } else {
+          document.documentElement.classList.add("dark");
+        }
+
         console.log(theme.value);
       }}
     >
