@@ -17,8 +17,6 @@ export function ThemeToggle() {
         } else {
           document.documentElement.classList.add("dark");
         }
-
-        console.log(theme.value);
       }}
     >
       <Icons.sun className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

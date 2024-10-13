@@ -7,11 +7,10 @@ export function Link(
   { href, ...props }: JSX.HTMLAttributes<HTMLAnchorElement>,
 ) {
   if (
-    IS_BROWSER && typeof href === "string" && typeof window !== "undefined" &&
-    window.location.hostname !== "localhost"
+    IS_BROWSER && typeof href === "string" && typeof window !== "undefined"
   ) {
-    const { subdomain, domain } = getDomain(window.location.hostname);
-    console.log(subdomain, domain);
+    const { domain, subdomain } = getDomain(globalThis.location.hostname);
+    console.log(subdomain && true);
     if (subdomain) {
       return <a href={`https://${domain}${href}`} {...props} />;
     } else {
