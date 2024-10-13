@@ -58,7 +58,13 @@ export default async function HomePage(_req: Request, ctx: RouteContext) {
               throw new Error("slur");
             }
 
-            if (domain === "army.social" && RESERVED.includes(handle)) {
+            // TODO: probably want to add some way for the forker to add their
+            // domain to this reserved list, or config their on.. deno task <script>?
+            if (
+              (domain === "army.social" || domain === "deno.social" ||
+                domain === "sad.blue") &&
+              RESERVED.includes(handle)
+            ) {
               throw new Error("reserved");
             }
 

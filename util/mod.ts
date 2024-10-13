@@ -58,4 +58,6 @@ export const RESERVED = [
   "Pic",
   "New",
   "Babys",
+  "www",
+  "WWW",
 ].map((x) => x.toLowerCase());
