@@ -7,8 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function getDomain(hostname: string) {
   try {
-    const url = new URL(hostname);
-    const domainParts = url.hostname.split(".");
+    const domainParts = hostname.split(".");
 
     const domain = `${domainParts[domainParts.length - 1]}
     ${domainParts[domainParts.length]}`;
